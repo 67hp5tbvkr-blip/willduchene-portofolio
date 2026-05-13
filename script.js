@@ -1,40 +1,33 @@
-const playlists = [
-  "PLJpwSH_unsgI39IXHReNTR9w0hScxuLki",
-  "PLJpwSH_unsgJBZNUqjH7zSsms_QcwmWNc",
-  "PLJpwSH_unsgJVCaxQdOiQ7UIJvl2SxKCV",
-  "PLJpwSH_unsgIyofHxEz-kRSEgMPZia5DH",
-  "PLJpwSH_unsgIN3bCbNm-7RSkpsem3VbFM"
-];
+console.log("JS CHARGÉ OK");
 
 const grid = document.getElementById("grid");
+const lightbox = document.getElementById("lightbox");
+const player = document.getElementById("player");
 
-function addVideo(id){
+const videos = [
+  "G3zP-RhcgAE",
+  "FT0frI2LMtY",
+  "fLNfS5OR8t4"
+];
+
+videos.forEach(id => {
   const div = document.createElement("div");
-  div.className = "card";
-
   div.innerHTML = `
     <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg">
   `;
 
-  div.onclick = () => openVideo(id);
-  grid.appendChild(div);
-}
+  div.onclick = () => {
+    lightbox.style.display = "block";
+    player.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1`;
+  };
 
-function openVideo(id){
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("player").src =
-    `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0`;
-}
+  grid.appendChild(div);
+});
 
 document.getElementById("close").onclick = () => {
-  document.getElementById("lightbox").style.display = "none";
-  document.getElementById("player").src = "";
-};
-
-/* IMPORTANT: on bypass API totalement */
-const fallbackVideos = [
-  "FT0frI2LMtY",
-  "fLNfS5OR8t4",
+  lightbox.style.display = "none";
+  player.src = "";
+};  "fLNfS5OR8t4",
   "3m3XVDgL7ww",
   "nfFwveM2eLA"
 ];
