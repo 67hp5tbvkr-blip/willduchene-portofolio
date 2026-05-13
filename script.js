@@ -1,40 +1,47 @@
-const API_KEY = "AIzaSyAWnHVIODi6O7PQpNAxSIBlM2LNNynY8H0";
+const videos = [
+  "FT0frI2LMtY",
+  "fLNfS5OR8t4",
+  "3m3XVDgL7ww",
+  "nfFwveM2eLA"
+];
 
-/* PLAYLISTS */
-const PLAYLISTS = {
-  showreel: "PLJpwSH_unsgIN3bCbNm-7RSkpsem3VbFM",
-  capture: "PLJpwSH_unsgJVCaxQdOiQ7UIJvl2SxKCV",
-  clip: "PLJpwSH_unsgJBZNUqjH7zSsms_QcwmWNc",
-  interview: "PLJpwSH_unsgIyofHxEz-kRSEgMPZia5DH",
-  trailer: "PLJpwSH_unsgI39IXHReNTR9w0hScxuLki"
+const containers = {
+  showreels: document.getElementById("showreels"),
+  captures: document.getElementById("captures"),
+  clips: document.getElementById("clips"),
+  interviews: document.getElementById("interviews"),
+  trailers: document.getElementById("trailers")
 };
 
-/* LIGHTBOX */
-const lightbox = document.getElementById("lightbox");
-const player = document.getElementById("player");
+function createCard(id){
+  const div = document.createElement("div");
+  div.className = "card";
+
+  div.innerHTML = `
+    <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg">
+  `;
+
+  div.onclick = () => openVideo(id);
+  return div;
+}
 
 function openVideo(id){
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-  lightbox.style.display = "flex";
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("player").src =
+    `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
 }
 
 document.getElementById("close").onclick = () => {
-  lightbox.style.display = "none";
-  player.src = "";
+  document.getElementById("lightbox").style.display = "none";
+  document.getElementById("player").src = "";
 };
 
-/* LOAD PLAYLIST */
-async function loadPlaylist(id, container){
-  const res = await fetch(
-    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${id}&key=${API_KEY}`
-  );
-
-  const data = await res.json();
-
-  data.items.forEach(v => {
-    const div = document.createElement("div");
-    div.className = "card";
-
+/* SIMPLE FILL (STABLE) */
+videos.forEach(id => {
+  Object.values(containers).forEach(c => {
+    if(c) c.appendChild(createCard(id));
+  });
+});
     div.innerHTML = `
       <img src="${v.snippet.thumbnails.medium.url}">
     `;
