@@ -1,40 +1,56 @@
-body {
-margin:0;
-background:black;
-color:white;
-font-family: Arial;
+const API_KEY = "AIzaSyAWnHVIODi6O7PQpNAxSIBlM2LNNynY8H0";
+
+/* PLAYLISTS */
+const PLAYLISTS = {
+  showreel: "PLJpwSH_unsgIN3bCbNm-7RSkpsem3VbFM",
+  capture: "PLJpwSH_unsgJVCaxQdOiQ7UIJvl2SxKCV",
+  clip: "PLJpwSH_unsgJBZNUqjH7zSsms_QcwmWNc",
+  interview: "PLJpwSH_unsgIyofHxEz-kRSEgMPZia5DH",
+  trailer: "PLJpwSH_unsgI39IXHReNTR9w0hScxuLki"
+};
+
+/* LIGHTBOX */
+const lightbox = document.getElementById("lightbox");
+const player = document.getElementById("player");
+
+function openVideo(id){
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+  lightbox.style.display = "flex";
 }
 
-.hero {
-height:100vh;
-position:relative;
-overflow:hidden;
+document.getElementById("close").onclick = () => {
+  lightbox.style.display = "none";
+  player.src = "";
+};
+
+/* LOAD PLAYLIST */
+async function loadPlaylist(id, container){
+  const res = await fetch(
+    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${id}&key=${API_KEY}`
+  );
+
+  const data = await res.json();
+
+  data.items.forEach(v => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <img src="${v.snippet.thumbnails.medium.url}">
+    `;
+
+    div.onclick = () => openVideo(v.snippet.resourceId.videoId);
+
+    document.getElementById(container).appendChild(div);
+  });
 }
 
-.hero iframe {
-position:absolute;
-width:120%;
-height:120%;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-}
-
-.overlay {
-position:absolute;
-bottom:60px;
-left:60px;
-}
-
-.overlay h1 {
-font-size:60px;
-margin:0;
-}
-
-.scroll {
-margin-top:20px;
-opacity:0.6;
-}
+/* INIT */
+loadPlaylist(PLAYLISTS.showreel, "showreels");
+loadPlaylist(PLAYLISTS.capture, "captures");
+loadPlaylist(PLAYLISTS.clip, "clips");
+loadPlaylist(PLAYLISTS.interview, "interviews");
+loadPlaylist(PLAYLISTS.trailer, "trailers");}
 
 .section {
 padding:120px 10%;
