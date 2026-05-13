@@ -41,6 +41,13 @@ videos.forEach(id => {
   Object.values(containers).forEach(c => {
     if(c) c.appendChild(createCard(id));
   });
+});};
+
+/* SIMPLE FILL (STABLE) */
+videos.forEach(id => {
+  Object.values(containers).forEach(c => {
+    if(c) c.appendChild(createCard(id));
+  });
 });
     div.innerHTML = `
       <img src="${v.snippet.thumbnails.medium.url}">
