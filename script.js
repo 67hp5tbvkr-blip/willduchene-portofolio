@@ -28,7 +28,7 @@ function createCard(id){
 function openVideo(id){
   document.getElementById("lightbox").style.display = "flex";
   document.getElementById("player").src =
-    `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    player.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=1`;;
 }
 
 document.getElementById("close").onclick = () => {
